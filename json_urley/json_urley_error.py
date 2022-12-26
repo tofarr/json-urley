@@ -1,0 +1,4 @@
+
+
+class JsonUrleyError(Exception):
+    pass
