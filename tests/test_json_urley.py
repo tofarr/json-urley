@@ -6,7 +6,6 @@ from json_urley import query_str_to_json_obj, json_obj_to_query_str, JsonUrleyEr
 
 
 class TestJsonUrley(TestCase):
-
     def test_empty_params(self):
         json_obj = {}
         query_str = json_obj_to_query_str(json_obj)
@@ -63,7 +62,7 @@ class TestJsonUrley(TestCase):
         query_str = json_obj_to_query_str(json_obj)
         self.assertEqual("a=null", query_str)
         with self.assertRaises(JsonUrleyError):
-            query_str_to_json_obj('a~n=none')
+            query_str_to_json_obj("a~n=none")
 
     def test_rule_2_array(self):
         query_str = "a~a="
@@ -373,7 +372,7 @@ class TestJsonUrley(TestCase):
         json_obj = {
             "name": "geometry",
             "points": [[1, 2], [3, 4]],
-            "linestring": [1, 2, 3, 4]
+            "linestring": [1, 2, 3, 4],
         }
         query_str = json_obj_to_query_str(json_obj)
         expected_query_str = (
