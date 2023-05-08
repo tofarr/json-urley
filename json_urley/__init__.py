@@ -114,16 +114,6 @@ def _generate_query_params(
         raise JsonUrleyError(f"unexpected_type:{json_obj}")
 
 
-def _generate_query_params_for_dict(json_obj: Dict, current_param: List[str]):
-    if not json_obj:
-        yield ".".join(current_param) + "~o", ""
-        return
-    for key, value in json_obj.items():
-        key = key.replace("~", "~~").replace(".", "~.")
-        current_param.append(key)
-        yield from _generate_query_params(value, current_param, False)
-
-
 def _generate_query_params_for_list(
     json_obj: List, current_param: List[str], is_nested_list: bool
 ):
