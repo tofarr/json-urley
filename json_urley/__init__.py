@@ -108,19 +108,22 @@ def _generate_query_params(
         yield key, json_obj
     elif isinstance(json_obj, (int, float, Decimal)):
         key = ".".join(current_param)
-        if math.isnan(json_obj):
-            value = "NaN"
-        elif json_obj == math.inf:
-            value = "Infinity"
-        elif json_obj == -math.inf:
-            value = "-Infinity"
-        else:
-            value = str(json_obj)
+        value = _number_to_str(json_obj)
         yield key, value
     elif isinstance(json_obj, str):
         yield from _generate_query_params_for_str(json_obj, current_param)
     else:
         raise JsonUrleyError(f"unexpected_type:{json_obj}")
+
+
+def _number_to_str(value):
+    if math.isnan(value):
+        return "NaN"
+    if value == math.inf:
+        return "Infinity"
+    if value == -math.inf:
+        return "-Infinity"
+    return str(value)
 
 
 def _generate_query_params_for_list(
