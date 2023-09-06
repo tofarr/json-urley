@@ -1,3 +1,4 @@
+import math
 from decimal import Decimal
 from typing import Dict, List, Iterator, Tuple
 from urllib.parse import urlencode, parse_qsl
@@ -107,7 +108,15 @@ def _generate_query_params(
         yield key, json_obj
     elif isinstance(json_obj, (int, float, Decimal)):
         key = ".".join(current_param)
-        yield key, str(json_obj)
+        if math.isnan(json_obj):
+            value = "NaN"
+        elif json_obj == math.inf:
+            value = "Infinity"
+        elif json_obj == -math.inf:
+            value = "-Infinity"
+        else:
+            value = str(json_obj)
+        yield key, value
     elif isinstance(json_obj, str):
         yield from _generate_query_params_for_str(json_obj, current_param)
     else:

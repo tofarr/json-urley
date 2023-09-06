@@ -34,6 +34,7 @@ Json Urley provides a tight standard for converting json objects to and from URL
    * The value `false` implies the type is boolean: `?a=false => {"a": false}
    * If the value can be parsed as an integer, it is an integer number: `?a=1 => {"a": 1}`
    * If the value can be parsed as a float, it is a floating point number: `?a=1.0 => {"a": 1.0}`
+   * If the value is `NaN`, `Infinity` or `-Infinity` it is one of these numbers.
    * The value is a string
 8. Duplicate keys mean the presence of an array at the end of the path. *This makes the ordering of elements
    significant!* 

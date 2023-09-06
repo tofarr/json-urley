@@ -1,7 +1,8 @@
+import json
+import math
 from datetime import datetime
 from unittest import TestCase
 
-import tests
 from json_urley import query_str_to_json_obj, json_obj_to_query_str, JsonUrleyError
 
 
@@ -400,3 +401,32 @@ class TestJsonUrley(TestCase):
         query_str = "value=1&value.child.grandchild=2"
         with self.assertRaises(JsonUrleyError):
             query_str_to_json_obj(query_str)
+
+    def test_uuid_convert(self):
+        json_obj = {"id": "1194739a-8e75-47c1-98dd-887055a560c6"}
+        query_str = json_obj_to_query_str(json_obj)
+        expected_query_str = "id=1194739a-8e75-47c1-98dd-887055a560c6"
+        self.assertEqual(query_str, expected_query_str)
+        result = query_str_to_json_obj(query_str)
+        self.assertEqual(json_obj, result)
+
+    def test_special_number_str(self):
+        numbers = ["NaN", "Infinity", "-Infinity"]
+        for n in numbers:
+            json_obj = {"id": n}
+            query_str = json_obj_to_query_str(json_obj)
+            expected_query_str = f"id~s={n}"
+            self.assertEqual(query_str, expected_query_str)
+            result = query_str_to_json_obj(query_str)
+            self.assertEqual(json_obj, result)
+
+    def test_special_number(self):
+        numbers = [math.nan, math.inf, -math.inf]
+        strings = ["NaN", "Infinity", "-Infinity"]
+        for n, s in zip(numbers, strings):
+            json_obj = {"id": n}
+            query_str = json_obj_to_query_str(json_obj)
+            expected_query_str = f"id={s}"
+            self.assertEqual(query_str, expected_query_str)
+            result = query_str_to_json_obj(query_str)
+            self.assertEqual(json.dumps(json_obj), json.dumps(result))
