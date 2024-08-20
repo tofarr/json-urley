@@ -2,7 +2,24 @@
 
 Json Urley provides a tight standard for converting json objects to and from URL parameters.
 
-## Aims:
+## Usage
+
+```
+import json_urley
+json_urley.json_obj_to_query_str({ "name": "John", "age": 21, "interests": ["sports", "chess"] })
+"name=John&age=21&interests=sports&interests=chess"
+json_urley.query_str_to_json_obj("name=John&age=21&interests~a.n.type=sport&interests.e.name=football&interests.n.type=game&interests.e.name=chess")
+{ 
+   "name": "John", 
+   "age": 21, 
+   "interests": [
+      {"type": "sport", "name": "football"}, 
+      {"type": "game", "name": "chess"}
+   ]
+}
+```
+
+## Aims
 
 * The resulting URLs should be as readable as possible
 * Most cases should not include anything that a user unfamiliar with this library would not expect
