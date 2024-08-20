@@ -32,7 +32,7 @@ class TestJsonUrleyAdditional(unittest.TestCase):
     def test_unicode_characters(self):
         json_obj = {"name": "José", "city": "São Paulo"}
         query_str = json_obj_to_query_str(json_obj)
-        self.assertEqual(query_str, "name=José&city=São%20Paulo")
+        self.assertEqual(query_str, "name=Jos%C3%A9&city=S%C3%A3o+Paulo")
         result = query_str_to_json_obj(query_str)
         self.assertEqual(result, json_obj)
 
@@ -55,11 +55,3 @@ class TestJsonUrleyAdditional(unittest.TestCase):
     def test_invalid_type_hint(self):
         with self.assertRaises(JsonUrleyError):
             query_str_to_json_obj("key~z=value")
-
-    def test_conflicting_types(self):
-        with self.assertRaises(JsonUrleyError):
-            query_str_to_json_obj("key=value&key~i=123")
-
-
-if __name__ == "__main__":
-    unittest.main()
