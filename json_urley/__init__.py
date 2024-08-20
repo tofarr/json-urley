@@ -9,6 +9,10 @@ from json_urley._path_element import parse_path, PathElement
 
 def query_str_to_json_obj(query: str) -> Dict:
     params = parse_qsl(query, keep_blank_values=True)
+    # Check for conflicting types
+    # keys = [key for key, _ in params]
+    # if len(keys) != len(set(keys)):
+    #    raise JsonUrleyError("Conflicting types detected in query string")
     result = query_params_to_json_obj(params)
     return result
 
